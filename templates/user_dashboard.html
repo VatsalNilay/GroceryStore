@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+
+{% block header_content %}{{name}}'s Dashboard{% endblock %}
+
+{% block nav_content %}
+<a href="/user/{{user}}">Home</a> |
+<a href="/user/{{user}}/profile">Profile </a> |
+<a href="/user/{{user}}/cart">Cart</a> |
+<a href="/logout">Logout</a>
+{% endblock %}
+
+
+{% block content %}    
+    <style>
+        body {
+            background-color: orangered;
+        }
+        #search-box{
+            padding: 10px 40px; 
+            font-size: 18px;
+        }
+        #search-button{
+            padding: 10px 20px; 
+            font-size: 18px;
+            background-color: #4CAF50; 
+            color: white; 
+            cursor: pointer;
+        }
+        .buyButton{
+            padding: 3px 7px;
+            margin-top: 10px;
+            background-color:#4CAF50; 
+            color: white; 
+        }
+        .notBuyButton{
+            padding:3px 7px;
+            margin-top: 10px;
+            background-color: grey;
+            color: white;
+        }
+        #dateInput{
+            padding: 10px; 
+            font-size: 18px;
+        }
+        
+        .category-box {
+            background-color: bisque;
+            border: 1px solid #ccc;
+            padding: 5px;
+            margin: 5px;
+        }
+
+        .product-list {
+            display: flex; /* Use Flexbox to display products horizontally */
+            flex-wrap: wrap; /* Allow wrapping to the next line if necessary */
+            margin-top: 5px;
+        }
+
+        .product-item {
+            background-color: silver;
+            margin: 10px;
+            padding: 40px 40px;
+            border: 1px solid #ddd;
+            
+        }
+    </style>
+
+    {% if addedToCart == 1 %}
+        var name = {{name}}
+        <script>
+            alert(name + "added to cart")
+        </script>
+    {% endif %}
+
+    <h1>Welcome {{user}} </h1>
+    <div style="text-align: center;">
+        <form action="/user/{{user}}" method="post">
+            <input id = 'search-box' type="text" name="query" placeholder="Enter your search query" required>
+            <select name="filter"  select name="filter" onchange="toggleDateInput()" style="padding: 10px; font-size: 18px;">
+                <option value="product" selected >Product</option>
+                <option value="category">Category</option>
+                <option value="mfc_date">Manufacture date</option>
+                <option value="price">Price</option>
+            </select>
+            <input type="date" name="date" id="dateInput" disabled required>
+            <input id = 'search-button' type="submit" value="Search">
+        </form>
+    </div>
+    <hr>
+
+    {% for category in products %}
+    <div class="category-box">
+        <h2>{{ category }}</h2>
+        <div class="product-list">
+            {% for product in products[category] %}
+            <div class="product-item">
+                {{ product.product_name }}
+                {{ product.price  | round(2)}}/{{product.unit}}
+                <br>
+                {% if product.products_left > 0 %}
+                    <button class = 'buyButton' type="button" onclick = "buyProduct('{{product.product_id}}')"> Buy </button>
+                {% else %}
+                    <button class = 'notBuyButton' disabled>Out Of Stock</button>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+
+
+    <script>
+        function toggleDateInput() {
+            var categoryDropdown = document.getElementsByName("filter")[0];
+            var dateInput = document.getElementById("dateInput");
+            var searchBox = document.getElementById("search-box");
+
+            if (categoryDropdown.value === "mfc_date") {
+                searchBox.value = ''
+                dateInput.disabled = false;
+                searchBox.disabled = true;
+            } else {
+                dateInput.removeAttribute("value");
+                searchBox.disabled = false;
+                dateInput.disabled = true;
+            }
+        }
+
+        function buyProduct(productId) {
+            window.location.href = "/user/{{user}}/buy/" + productId;
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,32 @@
+
+{% extends 'base.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+
+{% block header_content %}{{name}}'s Dashboard{% endblock %}
+
+
+{% block nav_content %}
+<a href="/admin/{{admin}}">Home</a> |
+<a href="/logout">Logout</a>
+{% endblock %}
+
+
+{% block content %}    
+  <h1>Welcome {{admin}} </h1>
+  <hr>
+  <style>
+    body {
+      background-color: lightsalmon;
+    }
+    </style>
+
+
+
+<img src="data:image/png;base64,{{ plot_url }}" alt="Category Sales Graph">
+<br>
+<img src="data:image/png;base64,{{ plot_url1 }}" alt="Product Sales Graph">
+    
+    
+{% endblock %}

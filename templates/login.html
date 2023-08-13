@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block header_content %}<a href="/">Grocery Store</a>{% endblock %}
+
+{% block nav_content %}
+<a href="/">Home</a> |
+<a href="/signup">Signup</a>
+{% endblock %}
+
+{% block content %}  
+<style>
+  /* body {
+    font-family: Arial, sans-serif;
+    background-color: #0c626b;
+  } */
+
+  /* .container {
+      position: relative;
+      max-width: 100%;
+      height: auto;
+    } */
+    
+    /* img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+     */
+    .form-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: orangered;
+      padding: 5px;
+      border-radius: 10px;
+    }
+    
+    .form-overlay form {
+      margin: 0;
+    }
+
+
+  h1 {
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  form {
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #b73c3c;
+    border-radius: 4px;
+  }
+
+  input[type="submit"] {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 12px 20px;
+    width: 100%;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #1ecf2c;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  @media (max-width: 768px) {
+    img {
+      max-width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    img {
+      max-width: 60%;
+    }
+  }
+</style>
+<img src="{{ url_for('static', filename='grocery_store.jpg') }}" alt="Image">
+
+
+
+<div class="form-overlay">
+  <form action="/login" method="post">
+    <h1>Login</h1>
+    <label for="email">Email</label>
+    <input type="text" id="email" name="email" placeholder="Enter your email" required>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+    <p id="user-exists-message"></p>
+    
+    <label for="admin">Admin</label>
+    <input type="checkbox" id="admin" name="admin" value="0">
+    <br>
+    <br>
+    Don't have an account? <a href="/signup/user">SignUp</a>
+    <br>
+    <br>
+    <input type="submit" value="Login">
+  </form>
+</div> 
+{% endblock %}

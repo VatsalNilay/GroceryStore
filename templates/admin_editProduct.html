@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit - {{product['product_name']}}{% endblock %}
+
+
+{% block header_content %}{{admin['name']}}'s Dashboard{% endblock %}
+
+
+{% block nav_content %}
+<a href="/admin/{{admin['username']}}">Home</a> |
+<a href="#">Summary</a> |
+<a href="/logout">Logout</a>
+{% endblock %}
+
+
+{% block content %}    
+  <h1>Edit Product - {{product['product_name']}} </h1>
+  <style>
+    
+    #myButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 30px;  /*length bredth*/
+    font-size: 16px;
+    margin: 10px 10px;
+    cursor: pointer;
+  }
+  </style>
+  <button id="myButton" onclick="deleteProduct()">Delete</button>
+  
+  <script>
+    function deleteProduct() 
+    {
+        var result = confirm("Are you sure you want to delete {{ product['product_name'] }} ?");
+        if (result) {
+            window.location.href ="/{{admin['username']}}/delete/{{product.product_id}}";    
+        }
+    }
+</script>
+  <hr>
+
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: lightsalmon;
+        }
+
+    
+        form {
+          max-width: 400px;
+          margin: 0 auto;
+          background-color: lightgray;
+          padding: 20px;
+          border-radius: 4px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        label {
+          display: block;
+          margin-bottom: 8px;
+          font-weight: bold;
+        }
+    
+        input[type="text"],
+        input[type="number"],
+        select {
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+          margin-bottom: 16px;
+        }
+    
+        input[type="submit"] {
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          padding: 10px 16px;
+          font-size: 16px;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+      </style>
+    </head>
+    <body>
+      <form action="/{{ admin['username'] }}/edit/{{ product['product_id'] }}" method="POST">
+        <label for="product_name">Product Name</label>
+        <input type="text" id="product_name" name="product_name" value = {{product.product_name}} required>    
+        <label for="unit">Unit</label>
+        <select id="unit" name="unit" disabled required>
+        <option value="" disabled>Select a unit</option>
+        <option value="kg" {% if product.unit == 'kg' %} selected {% endif %}>kg</option>
+        <option value="g" {% if product.unit == 'g' %} selected {% endif %}>g</option>
+        <option value="l" {% if product.unit == 'l' %} selected {% endif %}>l</option>
+        <option value="ml" {% if product.unit == 'ml' %} selected {% endif %}>ml</option>
+        <option value="pair" {% if product.unit == 'pair' %} selected {% endif %}>pair</option>
+        <option value="pieces" {% if product.unit == 'pieces' %} selected {% endif %}>pieces</option>
+        </select>
+
+    
+        <label for="price">Price/unit</label>
+        <input type="number" id="price" name="price" step="0.01" value = {{product.price}} required>
+    
+        <label for="quantity">Quantity</label>
+        <input type="number" id="quantity" name="quantity" value = {{product.products_left}} required>
+        
+        
+        <label for="mfc_date">Manufacture Date</label>
+        <input type="date" id="mfc_date" name="mfc_date" value = {{product.mfc_date}} required>
+
+        <label for="exp_date">Expiry Date</label>
+        <input type="date" id="exp_date" name="exp_date" value = {{product.exp_date}} >
+        
+        <br>
+        <br>
+
+
+
+        <input type="submit" value="Edit">
+
+      </form>
+    
+{% endblock %}

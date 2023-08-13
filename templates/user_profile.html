@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - {{user}}{% endblock %}
+
+
+{% block header_content %}{{name}}'s Dashboard{% endblock %}
+
+{% block nav_content %}
+<a href="/user/{{user}}">Home</a> |
+<a href="/user/{{user}}/profile">Profile </a> |
+<a href="/user/{{user}}/cart">Cart</a> |
+<a href="/logout">Logout</a>
+{% endblock %}
+
+
+{% block content %}    
+    <style>
+        body {
+            background-color: orangered;
+        }
+
+    table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: darkgoldenrod;
+    }
+    
+    th, td {
+        padding: 10px;
+        border: 2px solid #ddd;
+        text-align: left;
+    }
+    
+    th {
+        background-color: gray;
+    }
+    </style>
+
+    <hr>
+    <h1>Order History - {{user}} </h1>
+    <hr>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{order.category_name}}-{{ order.product_name }}</td>
+            <td>{{ order.price }}/{{ order.unit }}</td>
+            <td>{{ order.quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+{% endblock %}b

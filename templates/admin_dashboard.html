@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+
+{% block header_content %}{{name}}'s Dashboard{% endblock %}
+
+
+{% block nav_content %}
+<a href="/admin/{{admin}}/summary">Summary</a> |
+<a href="/logout">Logout</a>
+{% endblock %}
+
+
+{% block content %}    
+  <h1>Welcome {{admin}} </h1>
+  <hr>
+  <style>
+    body {
+      background-color: lightsalmon;
+    }
+
+    #myButton {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 30px;  /*length bredth*/
+    font-size: 16px;
+    margin: 10px 10px;
+    cursor: pointer;
+  }
+
+  .color-block {
+    width: 270px;
+    height: 300px;
+    display: inline-block;
+    margin: 35px;
+    border: 1px solid black;
+    text-align: center;
+    font-size: 25px;
+    overflow:hidden;
+    position: relative;
+    
+
+  }
+  .color-block p {
+    text-align: center;
+    overflow: hidden;
+    white-space: normal; /* Allow text to wrap within the color block */
+    word-wrap: break-word; /* Break long words to prevent horizontal overflow */
+  }
+
+  .color-row {
+    white-space: nowrap;
+  }
+
+  #myForm {
+    display: none;
+  }
+  .big-box {
+    width: 300px; /* Adjust the width as needed */
+    height: 40px; /* Adjust the height as needed */
+    font-size: 20px; 
+  }
+
+
+  .box {
+      width: 270px;
+      height: 350px;
+      display: inline-block;
+      border: 1px solid black;
+      text-align: center;
+      /* font-size: 25px; */
+      overflow: hidden;
+      position: relative;
+    }
+
+    .box-header {
+      text-align: center;
+      background-color: grey;
+    }
+
+    .box-main {
+      height: 243px;
+      overflow-y: auto;
+      background-color: lightgray;
+    }
+
+    .box-footer {
+      background-color: grey;
+    }
+
+    .box-footer button {
+      cursor: pointer;
+    }
+    .box-main p {
+      margin: 0; /* Reset the margin for paragraph elements */
+      padding: 8px 40px 8px 0; /* Add padding only on the right to move text away from left */
+      text-align: left; /* Align text to the left */
+    }
+
+    .box-main p span {
+      float: left; /* Float the serial number to the left */
+      width: 30px; /* Adjust this value to set the width of the serial number column */
+    
+    }
+    .box-main p a {
+      color: black; /* Set link color to black */
+      text-decoration: none; /* Remove underlines from the link */
+    }
+  </style>
+
+    
+    <button id="myButton" onclick="showForm()">Add Category</button>
+    <form id="myForm" action = "/admin/{{username}}" method = "post"  >
+    <input type="text" name="name" placeholder="Category Name" class= "big-box" required>
+        <br>
+        <br>
+    <button type="submit">Save</button>
+    </form> 
+    <hr>
+    <br>
+
+  {% for cat in category_info %}  
+  {% if loop.index % 4 == 1 %}
+  <div class="color-row">
+  {% endif %}
+  <div class="color-block">
+
+    <div class="box">
+      <div class="box-header">
+        {{ cat.cat_name }}
+      </div>
+
+      <div class="box-main">
+        {% for item in products[cat.cat_name] %}
+        <p><span>{{ loop.index }}.</span><a href="/{{ admin }}/edit/{{item.product_id}}" >{{ item.product_name }}</a></p>
+      </p>
+
+        {% endfor %}
+      </div>
+
+      <div class="box-footer">
+        <!-- <hr> -->
+        <button onclick="deleteCategory('{{ cat.cat_id }}','{{cat.cat_name}}')">Delete</button>
+        <button onclick="addProduct('{{ cat.cat_id }}')">Add Product</button>
+        <button onclick="editCategory('{{ cat.cat_id }}')">Edit</button>
+      </div>
+    </div>
+
+  </div>
+  {% if loop.index % 4 == 0 or loop.last %}
+  </div>
+  {% endif %}
+  {% endfor %}
+      
+      
+      <script>
+        
+        function showForm() {
+          var button = document.getElementById("myButton");
+          var form = document.getElementById("myForm");
+          
+          button.style.display = "none";
+          form.style.display = "block";
+        }
+        
+        function addProduct(categoryId) {
+          window.location.href = "/{{username}}/"+categoryId+"/create" ;    
+        }
+
+
+    function deleteCategory(categoryId,categoryName) 
+    {
+        var result = confirm("Are you sure you want to delete " + categoryName +"?");
+        if (result) {
+            window.location.href = "/admin/{{username}}/delete/" + categoryId;
+        }
+    
+    }
+    function editCategory(categoryId) 
+    {
+        window.location.href = "/admin/{{username}}/edit/" + categoryId;    
+    }
+
+    </script>
+{% endblock %}

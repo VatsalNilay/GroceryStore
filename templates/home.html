@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Grocery Store{% endblock %}
+
+{% block header_content %}<a href="/">Grocery Store</a>{% endblock %}
+
+{% block nav_content %}
+<a href="/login">Login</a> |
+<a href="/signup">Signup</a>
+{% endblock %}
+
+{% block content %}  
+<style>
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    @media (max-width: 768px) {
+      img {
+        max-width: 80%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      img {
+        max-width: 60%;
+      }
+    }
+  </style>
+{{out}}
+<img src="{{ url_for('static', filename='grocery_store.jpg') }}" alt="Image">
+
+{% endblock %}

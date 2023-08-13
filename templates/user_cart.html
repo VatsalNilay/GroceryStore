@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart - {{ user }}{% endblock %}
+
+{% block header_content %}{{ name }}'s Dashboard{% endblock %}
+
+{% block nav_content %}
+<a href="/user/{{ user }}">Home</a> |
+<a href="/user/{{user}}/profile">Profile </a> |
+<a href="/user/{{ user }}/cart">Cart</a> |
+<a href="/logout">Logout</a>
+{% endblock %}
+
+{% block content %}    
+<style>
+    body {
+        background-color: orangered;
+    }
+    
+    table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background-color: darkgoldenrod;
+    }
+    
+    th, td {
+        padding: 10px;
+        border: 2px solid #ddd;
+        text-align: left;
+    }
+    
+    th {
+        background-color: gray;
+    }
+    
+    .review-button {
+        padding: 5px 10px;
+        background-color: #0000FF;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    .delete-button {
+        padding: 5px 10px;
+        background-color: red;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    .buy-button {
+        padding: 5px 40px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+<h1>Cart - {{ user }}</h1>
+<hr>
+{% if product|length > 0 %}
+<table>
+    <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Action</th>
+    </tr>
+    {% for item in product %}
+    <tr>
+        <td>{{ item['Category'] }} - {{item['Product']}}</td>
+        <td>Rs {{ item['Price']}}/{{item['Unit']}}</td>
+        <td>{{item['Quantity']}}</td>
+        <td><button class="review-button" onclick="modifyItem('{{item.product_id}}')">Review</button>
+            <button class = 'delete-button' onclick="deleteItem('{{item.product_id}}')">Delete</button>
+        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="2" style="text-align: right;"><strong>Total</strong></td>
+        <td>Rs {{ amount }}</td>
+        <td><button class = 'buy-button' onclick="buyItem()">Buy</button></td>
+    </tr>
+</table>
+
+<script>
+    function deleteItem(productId) {
+        if (confirm('Are you sure you want to delete this product?')) {
+            window.location.href = '/user/{{user}}/cart/delete/' + productId;
+        }
+    }
+    function modifyItem(productId) {
+        window.location.href = '/user/{{user}}/cart/modify/' + productId; 
+        
+    }
+    function buyItem(){
+        window.location.href = '/user/{{user}}/cart/buy';  
+    }
+</script>
+{% else %}
+ <h2>Empty Cart</h2>
+{% endif %}
+
+
+{% endblock %}

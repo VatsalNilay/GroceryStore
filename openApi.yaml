@@ -1,0 +1,326 @@
+openapi: 3.0.3
+info:
+  title: API for Grocery Store App
+  version: 1.0.0
+  description: 
+    API documentation using OpenAPI Specification 3.0
+servers:
+  - url: http://127.0.0.1:5000/
+    description: Development server
+  
+
+paths:
+  /api/categories:
+    get:
+      description : Operation to get list of all categories
+      responses:
+        200:
+          description: Successfully retrieved all the categories 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        404:
+          description: Categories not found
+          
+          
+          
+    post:
+      description: Create a new category
+      requestBody:
+        required: true
+        requestBody:
+          required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                cat_name:
+                  type: string
+                admin_id:
+                  type: integer
+      responses:
+        201:
+          description: Successfully created a new show
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        400:
+          description: Bad request due to invalid input data
+ 
+ 
+ 
+ 
+  /api/categories/{cat_id}:
+    get:
+      description : Operation to get details on specefic category
+      parameters:
+        - name: cat_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Successfully retrieved the category 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+        404:
+          description: Categories not found 
+          
+          
+          
+    put:
+      description: Update details of a specific show by its ID
+      parameters:
+        - name: cat_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                cat_name:
+                  type: string
+      responses:
+        201:
+          description: Successfully updated the category details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        400:
+          description: Bad request due to invalid input data
+        404:
+          description: Category not found 
+          
+          
+          
+    delete:
+      description: Delete a specific category by its ID
+      parameters:
+        - name: cat_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Successfully deleted the category
+        404:
+          description: Category not found
+          
+     
+  /api/products:
+    get:
+      description: Get the list of all the products
+      responses:
+        200:
+          description: Successfully retrieved all the categories 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        404:
+          description: Categories not found
+
+    post:
+      description: Create a new category
+      requestBody:
+        required: true
+        requestBody:
+          required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Product_post'
+      responses:
+        201:
+          description: Successfully created a new show
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request due to invalid input data
+
+
+  /api/products/{product_id}:
+    get:
+      description : Operation to get details on a specefic product
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Successfully retrieved the product 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        404:
+          description: Categories not found 
+          
+          
+          
+          
+    put:
+      description: Update details of a specific show by its ID
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product_put'
+      responses:
+        201:
+          description: Successfully updated the product details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        400:
+          description: Bad request due to invalid input data
+        404:
+          description: Product not found 
+
+
+    delete:
+      description: Delete a specific Product by its ID
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Successfully deleted the category
+ 
+        404:
+          description: Category not found
+
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        cat_id:
+          type: integer
+          format: int64
+        cat_name:
+          type: string 
+        admin_id:
+          type: integer
+          format: int64
+        date:
+          type: string
+      example:
+        cat_id: 4
+        cat_name: Drinks
+        admin_id: 3
+        date: 2023-08-03 14:16:59
+        
+    Product:
+      type: object
+      properties:
+        product_id:
+          type: integer
+        product_name:
+          type: string 
+        cat_id:
+          type: integer
+        price:
+           type: number
+           format: float
+        unit:
+           type: string
+        products_left:
+          type: integer
+        mfc_date:
+          type: string
+        exp_date:
+          type : string
+      example:
+        product_id: 6
+        product_name: Mango Shake
+        cat_id: 4
+        price: 100
+        unit: l
+        quantity: 18
+        mfc_date: 2023-07-23
+        exp_date: 2023-07-28
+
+    Product_post:
+        type: object
+        properties:
+          product_name:
+            type: string 
+          cat_id:
+            type: integer
+          price:
+             type: number
+             format: float
+          unit:
+             type: string
+          quantity:
+            type: integer
+          mfc_date:
+            type: string
+          exp_date:
+            type : string
+        example:
+          product_name: Mango Shake
+          cat_id: 4
+          price: 100
+          unit: l
+          quantity: 18
+          mfc_date: 2023-07-23
+          exp_date: 2023-07-28
+    
+    
+    Product_put:
+        type: object
+        properties:
+          product_name:
+            type: string 
+          price:
+             type: number
+             format: float
+          quantity:
+            type: integer
+          mfc_date:
+            type: string
+          exp_date:
+            type : string
+        example:
+          product_name: Mango Shake
+          price: 100
+          quantity: 18
+          mfc_date: 2023-07-23
+          exp_date: 2023-07-28
+

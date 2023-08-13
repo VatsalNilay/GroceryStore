@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+
+{% block header_content %}{{name}}'s Dashboard{% endblock %}
+
+
+{% block nav_content %}
+<a href="/admin/{{username}}">Home</a> |
+<a href="#">Summary</a> |
+<a href="/logout">Logout</a>
+{% endblock %}
+
+
+{% block content %}    
+  <h1>Edit Category </h1>
+  <hr>
+  <style>
+     body {
+          background-color: lightsalmon;
+        }
+        
+      #myButton {
+    background-color: #4CAF50;
+    /* border: none; */
+    color: white;
+    padding: 10px 30px;  /*length bredth*/
+    font-size: 16px;
+    margin: 10px 10px;
+    cursor: pointer;
+  }
+
+  .big-box {
+    width: 300px; /* Adjust the width as needed */
+    height: 40px; /* Adjust the height as needed */
+    font-size: 20px; /* Adjust the font size as needed */
+    /* Add any other desired styling */
+  }
+
+  </style>
+    
+    <form  action = "/admin/{{username}}/edit/{{cat_id}}" method = "post"  >
+    <input type="text" name="newName" placeholder="New Category Name" class= "big-box" required>
+        <br>
+        <br>
+    <button type="submit">Save</button>
+    </form> 
+    <hr>
+    <br>
+
+
+{% endblock %}
